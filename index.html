@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>StarSleep</title>
+<meta name="theme-color" content="#14153f">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#14153f;--bg2:#1f2060;--card:#262878;--star:#ffd36e;--cloud:#8fb8ff;--text:#f3f2ff;--mute:#a9a8de}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%}
+body{background:radial-gradient(ellipse at top,var(--bg2),var(--bg) 70%) fixed;color:var(--text);font-family:ui-rounded,"Nunito","Segoe UI",system-ui,sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+main{max-width:480px;margin:0 auto;padding:16px}
+header{display:flex;justify-content:space-between;align-items:center}
+h1{font-size:1.6rem;margin:0}
+.lang{background:none;border:1px solid var(--mute);color:var(--text);border-radius:20px;padding:6px 12px;font:inherit;font-size:.85rem}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.stat{background:var(--card);border-radius:20px;padding:14px;text-align:center}
+.stat b{display:block;font-size:2rem;color:var(--star)}
+.stat span{font-size:.85rem;color:var(--mute)}
+.nav{display:flex;align-items:center;justify-content:space-between;margin:8px 0}
+.nav button{background:var(--card);border:0;color:var(--text);width:44px;height:44px;border-radius:50%;font-size:1.3rem}
+.nav h2{margin:0;font-size:1.2rem}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.wd{text-align:center;font-size:.75rem;color:var(--mute);padding:4px 0}
+.day{aspect-ratio:1;border:0;border-radius:14px;background:var(--card);color:var(--text);font:inherit;font-size:.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0}
+.day i{font-style:normal;font-size:1.25rem;line-height:1}
+.day.dry{background:#3a3a8c}.day.wet{background:#2a3d7a}
+.day.today{outline:2px solid var(--star)}
+.day:disabled{opacity:.3}
+.empty{visibility:hidden}
+.msg{text-align:center;color:var(--mute);margin:18px 8px;font-size:.95rem}
+dialog{border:0;border-radius:24px;background:var(--card);color:var(--text);padding:20px;width:min(340px,90vw);font:inherit}
+dialog::backdrop{background:rgba(5,5,30,.7)}
+dialog h3{margin:0 0 12px;text-align:center}
+dialog button{display:block;width:100%;margin:8px 0;padding:14px;border:0;border-radius:16px;font:inherit;font-size:1.05rem;color:var(--text);background:var(--bg2)}
+dialog .d{background:#4a49a8}dialog .w{background:#32529a}
+dialog .x{background:none;color:var(--mute);font-size:.9rem}
+button:focus-visible{outline:3px solid var(--star)}
+@media(prefers-reduced-motion:no-preference){.day.dry i{animation:tw 2.5s ease-in-out infinite alternate}}
+@keyframes tw{to{transform:scale(1.15)}}
+</style>
+</head>
+<body>
+<main>
+<header><h1>🌙 StarSleep</h1><button class="lang" id="lang"></button></header>
+<section class="stats">
+ <div class="stat"><b id="sMonth">0</b><span id="tMonth"></span></div>
+ <div class="stat"><b id="sStreak">0</b><span id="tStreak"></span></div>
+</section>
+<div class="nav"><button id="prev" aria-label="Previous">‹</button><h2 id="title"></h2><button id="next" aria-label="Next">›</button></div>
+<div class="grid" id="grid"></div>
+<p class="msg" id="msg"></p>
+</main>
+<dialog id="dlg"><h3 id="dTitle"></h3>
+<button class="d" id="bDry"></button><button class="w" id="bWet"></button>
+<button id="bClr"></button><button class="x" id="bCancel"></button></dialog>
+<script>
+const T={
+ en:{dry:"Dry night ⭐",wet:"Wet night ☁️",clr:"Clear this day",cancel:"Cancel",month:"stars this month",streak:"dry nights in a row",
+  m1:"Every star is a good night. Clouds are okay too — tomorrow is a new sky.",m2:"Tap a day to add a star or a cloud.",how:"How was the night of"},
+ he:{dry:"לילה יבש ⭐",wet:"לילה רטוב ☁️",clr:"נקה את היום",cancel:"ביטול",month:"כוכבים החודש",streak:"לילות יבשים ברצף",
+  m1:"כל כוכב הוא לילה טוב. גם עננים זה בסדר — מחר שמיים חדשים.",m2:"לחצי על יום כדי להוסיף כוכב או ענן.",how:"איך היה הלילה של"}
+};
+let lang=localStorage.getItem("ss_lang")||((navigator.language||"en").startsWith("he")?"he":"en");
+let data={};try{data=JSON.parse(localStorage.getItem("ss_data")||"{}")}catch(e){}
+const now=new Date();let y=now.getFullYear(),m=now.getMonth(),sel=null;
+const $=id=>document.getElementById(id);
+const key=(Y,M,D)=>Y+"-"+String(M+1).padStart(2,"0")+"-"+String(D).padStart(2,"0");
+const save=()=>{try{localStorage.setItem("ss_data",JSON.stringify(data))}catch(e){}};
+function streak(){let d=new Date();if(!data[key(d.getFullYear(),d.getMonth(),d.getDate())])d.setDate(d.getDate()-1);
+ let n=0;while(data[key(d.getFullYear(),d.getMonth(),d.getDate())]==="dry"){n++;d.setDate(d.getDate()-1)}return n}
+function render(){
+ const t=T[lang],loc=lang==="he"?"he-IL":"en-US";
+ document.documentElement.lang=lang;document.documentElement.dir=lang==="he"?"rtl":"ltr";
+ $("lang").textContent=lang==="he"?"English":"עברית";
+ $("title").textContent=new Date(y,m,1).toLocaleDateString(loc,{month:"long",year:"numeric"});
+ $("tMonth").textContent=t.month;$("tStreak").textContent=t.streak;
+ const g=$("grid");g.innerHTML="";
+ for(let i=0;i<7;i++){const w=document.createElement("div");w.className="wd";
+  w.textContent=new Date(2023,0,1+i).toLocaleDateString(loc,{weekday:"short"});g.appendChild(w)}
+ const first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate();
+ for(let i=0;i<first;i++){const e=document.createElement("div");e.className="empty";g.appendChild(e)}
+ let stars=0;const today=new Date();today.setHours(0,0,0,0);
+ for(let d=1;d<=days;d++){
+  const k=key(y,m,d),v=data[k],b=document.createElement("button");
+  b.className="day"+(v?" "+v:"");
+  if(new Date(y,m,d).getTime()===today.getTime())b.classList.add("today");
+  b.innerHTML=(v==="dry"?"<i>⭐</i>":v==="wet"?"<i>☁️</i>":"")+"<span>"+d+"</span>";
+  if(v==="dry")stars++;
+  if(new Date(y,m,d)>today)b.disabled=true;
+  b.onclick=()=>{sel=k;$("dTitle").textContent=t.how+" "+new Date(y,m,d).toLocaleDateString(loc,{day:"numeric",month:"long"})+"?";
+   $("bDry").textContent=t.dry;$("bWet").textContent=t.wet;$("bClr").textContent=t.clr;$("bCancel").textContent=t.cancel;$("dlg").showModal()};
+  g.appendChild(b)}
+ $("sMonth").textContent=stars;$("sStreak").textContent=streak();
+ $("msg").textContent=Object.keys(data).length?t.m1:t.m2;
+}
+function set(v){if(v)data[sel]=v;else delete data[sel];save();$("dlg").close();render()}
+$("bDry").onclick=()=>set("dry");$("bWet").onclick=()=>set("wet");$("bClr").onclick=()=>set(null);$("bCancel").onclick=()=>$("dlg").close();
+$("prev").onclick=()=>{m--;if(m<0){m=11;y--}render()};
+$("next").onclick=()=>{m++;if(m>11){m=0;y++}render()};
+$("lang").onclick=()=>{lang=lang==="he"?"en":"he";try{localStorage.setItem("ss_lang",lang)}catch(e){}render()};
+render();
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body>
+</html>
