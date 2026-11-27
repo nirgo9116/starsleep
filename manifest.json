@@ -1,14 +1,18 @@
 {
+  "id": "/",
   "name": "StarSleep",
   "short_name": "StarSleep",
-  "start_url": "./index.html",
+  "description": "Track dry nights, build a bedtime routine and earn badges.",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#14153f",
-  "theme_color": "#14153f",
+  "orientation": "portrait",
+  "background_color": "#14214f",
+  "theme_color": "#1D9E75",
   "icons": [
-    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
-    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
-    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }

@@ -1,110 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>StarSleep</title>
-<meta name="theme-color" content="#14153f">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="theme-color" content="#1D9E75"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="StarSleep"/>
+<title>StarSleep 🌙</title>
+<link rel="manifest" href="manifest.json"/>
+<link rel="icon" type="image/png" href="icon-192.png"/>
+<link rel="apple-touch-icon" href="icon-192.png"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.10.0/tabler-icons.min.css"/>
 <style>
-:root{--bg:#14153f;--bg2:#1f2060;--card:#262878;--star:#ffd36e;--cloud:#8fb8ff;--text:#f3f2ff;--mute:#a9a8de}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%}
-body{background:radial-gradient(ellipse at top,var(--bg2),var(--bg) 70%) fixed;color:var(--text);font-family:ui-rounded,"Nunito","Segoe UI",system-ui,sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
-main{max-width:480px;margin:0 auto;padding:16px}
-header{display:flex;justify-content:space-between;align-items:center}
-h1{font-size:1.6rem;margin:0}
-.lang{background:none;border:1px solid var(--mute);color:var(--text);border-radius:20px;padding:6px 12px;font:inherit;font-size:.85rem}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
-.stat{background:var(--card);border-radius:20px;padding:14px;text-align:center}
-.stat b{display:block;font-size:2rem;color:var(--star)}
-.stat span{font-size:.85rem;color:var(--mute)}
-.nav{display:flex;align-items:center;justify-content:space-between;margin:8px 0}
-.nav button{background:var(--card);border:0;color:var(--text);width:44px;height:44px;border-radius:50%;font-size:1.3rem}
-.nav h2{margin:0;font-size:1.2rem}
-.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-.wd{text-align:center;font-size:.75rem;color:var(--mute);padding:4px 0}
-.day{aspect-ratio:1;border:0;border-radius:14px;background:var(--card);color:var(--text);font:inherit;font-size:.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0}
-.day i{font-style:normal;font-size:1.25rem;line-height:1}
-.day.dry{background:#3a3a8c}.day.wet{background:#2a3d7a}
-.day.today{outline:2px solid var(--star)}
-.day:disabled{opacity:.3}
-.empty{visibility:hidden}
-.msg{text-align:center;color:var(--mute);margin:18px 8px;font-size:.95rem}
-dialog{border:0;border-radius:24px;background:var(--card);color:var(--text);padding:20px;width:min(340px,90vw);font:inherit}
-dialog::backdrop{background:rgba(5,5,30,.7)}
-dialog h3{margin:0 0 12px;text-align:center}
-dialog button{display:block;width:100%;margin:8px 0;padding:14px;border:0;border-radius:16px;font:inherit;font-size:1.05rem;color:var(--text);background:var(--bg2)}
-dialog .d{background:#4a49a8}dialog .w{background:#32529a}
-dialog .x{background:none;color:var(--mute);font-size:.9rem}
-button:focus-visible{outline:3px solid var(--star)}
-@media(prefers-reduced-motion:no-preference){.day.dry i{animation:tw 2.5s ease-in-out infinite alternate}}
-@keyframes tw{to{transform:scale(1.15)}}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#f5f5f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+:root{
+  --bg:#ffffff;--bg2:#f5f5f0;--bg3:#ebebeb;
+  --txt:#1a1a1a;--txt2:#666;--txt3:#999;
+  --bdr:rgba(0,0,0,0.12);--bdr2:rgba(0,0,0,0.22);
+  --r-md:8px;--r-lg:12px;--r-xl:16px;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#1c1c1e;--bg2:#2c2c2e;--bg3:#3a3a3c;
+    --txt:#f2f2f7;--txt2:#aeaeb2;--txt3:#636366;
+    --bdr:rgba(255,255,255,0.12);--bdr2:rgba(255,255,255,0.22);
+  }
+  body{background:#000}
+}
+.ss{max-width:430px;margin:0 auto;min-height:100dvh;background:var(--bg);display:flex;flex-direction:column;position:relative;overflow:hidden}
+.btn-p{width:100%;padding:0.9rem;background:#1D9E75;color:#fff;border:none;border-radius:var(--r-lg);font-size:16px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.btn-p:active{background:#0F6E56;transform:scale(0.98)}
+.btn-p:disabled{background:var(--bg3);color:var(--txt3);cursor:not-allowed;transform:none}
+.card{border:0.5px solid var(--bdr);border-radius:var(--r-lg);padding:1.25rem;margin-bottom:1rem;background:var(--bg)}
+.sec-l{font-size:12px;font-weight:600;color:var(--txt2);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:0.04em}
+
+/* ONBOARDING */
+.ob{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;text-align:center;background:var(--bg)}
+.ob-ic{font-size:64px;margin-bottom:1.5rem}
+.ob-h{font-size:22px;font-weight:700;color:var(--txt);margin-bottom:0.5rem}
+.ob-p{font-size:15px;color:var(--txt2);line-height:1.65;margin-bottom:1.75rem}
+.ob input[type=text],.ob input[type=time]{width:100%;padding:0.85rem 1rem;border:1px solid var(--bdr2);border-radius:var(--r-lg);font-size:17px;text-align:center;background:var(--bg);color:var(--txt);margin-bottom:1rem;outline:none}
+.ob input:focus{border-color:#1D9E75}
+.ob-goals{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%;margin-bottom:1.5rem}
+.gb{padding:0.8rem 0;border:1px solid var(--bdr2);border-radius:var(--r-md);background:none;cursor:pointer;font-size:16px;font-weight:600;color:var(--txt2);-webkit-tap-highlight-color:transparent}
+.gb.sel{background:#E1F5EE;border-color:#1D9E75;color:#0F6E56}
+.ob-dots{display:flex;gap:6px;margin-top:1.5rem}
+.od{width:8px;height:8px;border-radius:50%;background:var(--bdr2);transition:background 0.2s}
+.od.on{background:#1D9E75}
+
+/* APP HEADER */
+.app-h{padding:1rem 1.25rem;border-bottom:0.5px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;background:var(--bg)}
+.app-title{font-size:18px;font-weight:700;color:var(--txt)}
+.app-sub{font-size:12px;color:var(--txt2);margin-top:1px}
+.stk-pill{display:flex;align-items:center;gap:5px;background:#FAEEDA;color:#854F0B;padding:5px 12px;border-radius:99px;font-size:13px;font-weight:600;white-space:nowrap}
+
+/* TABS */
+.tb{flex:1;padding:1.25rem;overflow-y:auto;background:var(--bg)}
+
+/* TONIGHT */
+.nbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.nb{padding:1.1rem;border:1.5px solid var(--bdr);border-radius:var(--r-lg);background:none;cursor:pointer;font-size:14px;font-weight:600;color:var(--txt2);display:flex;flex-direction:column;align-items:center;gap:8px;-webkit-tap-highlight-color:transparent;transition:all 0.15s}
+.nb i{font-size:28px}
+.nb:active{transform:scale(0.97)}
+.nb.dry.sel{background:#E1F5EE;border-color:#1D9E75;color:#0F6E56}
+.nb.wet.sel{background:#E6F1FB;border-color:#378ADD;color:#185FA5}
+.stpr{display:flex;align-items:center;gap:12px;margin-top:10px}
+.sbb{width:32px;height:32px;border-radius:50%;border:1px solid var(--bdr2);background:none;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;color:var(--txt);-webkit-tap-highlight-color:transparent}
+.sbb:active{background:var(--bg3)}
+
+/* ROUTINE */
+.ri{display:flex;align-items:flex-start;gap:12px;padding:1rem 0;border-bottom:0.5px solid var(--bdr)}
+.ri:last-child{border-bottom:none}
+.rchk{width:24px;height:24px;min-width:24px;border-radius:6px;border:1.5px solid var(--bdr2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;margin-top:1px;-webkit-tap-highlight-color:transparent}
+.rchk i{display:none;font-size:14px;color:#fff}
+.rchk.done{background:#1D9E75;border-color:#1D9E75}
+.rchk.done i{display:block}
+.ri-ic{font-size:20px;color:var(--txt2);min-width:24px;text-align:center;padding-top:1px}
+.ri-t{font-size:15px;font-weight:600;color:var(--txt)}
+.ri-s{font-size:13px;color:var(--txt2);margin-top:2px}
+.pbw{background:var(--bg3);border-radius:99px;height:7px;margin:0.75rem 0;overflow:hidden}
+.pb{height:100%;border-radius:99px;background:#1D9E75;transition:width 0.35s cubic-bezier(.4,0,.2,1)}
+
+/* BADGES */
+.bg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bc{border:0.5px solid var(--bdr);border-radius:var(--r-lg);padding:1rem 0.85rem;text-align:center;background:var(--bg)}
+.bc.unlocked{border-color:#EF9F27;background:#FAEEDA18}
+.bc.locked{opacity:0.38}
+.bi{font-size:32px;margin-bottom:6px}
+.bn{font-size:13px;font-weight:700;color:var(--txt)}
+.bd{font-size:11px;color:var(--txt2);margin-top:2px;line-height:1.4}
+.bt{display:inline-block;font-size:10px;background:#FAEEDA;color:#854F0B;padding:3px 9px;border-radius:99px;margin-top:6px;font-weight:700}
+
+/* PROGRESS */
+.s2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.sc{background:var(--bg2);border-radius:var(--r-lg);padding:1rem;text-align:center}
+.sn{font-size:26px;font-weight:700;color:var(--txt)}
+.sl{font-size:12px;color:var(--txt2);margin-top:2px}
+.cg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.ch{font-size:11px;color:var(--txt3);text-align:center;padding-bottom:4px;font-weight:600}
+.cc{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--txt3)}
+.cc.dry{background:#E1F5EE;color:#0F6E56;font-weight:700}
+.cc.wet{background:#E6F1FB;color:#185FA5;font-weight:700}
+.cc.tod{outline:2px solid #1D9E75;outline-offset:-2px}
+
+/* BOTTOM NAV */
+.bot-nav{display:flex;border-top:0.5px solid var(--bdr);background:var(--bg);padding-bottom:env(safe-area-inset-bottom)}
+.ni{flex:1;padding:0.65rem 0 0.55rem;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;background:none;border:none;color:var(--txt3);font-size:10px;font-weight:500;border-top:2px solid transparent;-webkit-tap-highlight-color:transparent}
+.ni.on{color:#1D9E75;border-top-color:#1D9E75}
+.ni i{font-size:22px}
+
+/* CELEBRATION */
+.cel{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2.5rem 2rem;background:var(--bg)}
+.cel-ic{font-size:80px;margin-bottom:1.25rem;display:block;animation:bop 0.6s ease}
+@keyframes bop{0%,100%{transform:scale(1)}40%{transform:scale(1.3)}70%{transform:scale(0.95)}}
+.cel-h{font-size:22px;font-weight:700;color:var(--txt);margin-bottom:0.5rem}
+.cel-p{font-size:15px;color:var(--txt2);line-height:1.6;white-space:pre-line}
+
+/* TOAST */
+.toast{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:#1D9E75;color:#fff;padding:0.6rem 1.4rem;border-radius:99px;font-size:14px;font-weight:600;opacity:0;transition:opacity 0.25s;pointer-events:none;white-space:nowrap;z-index:100;box-shadow:0 4px 20px rgba(29,158,117,0.35)}
+.toast.show{opacity:1}
 </style>
 </head>
 <body>
-<main>
-<header><h1>🌙 StarSleep</h1><button class="lang" id="lang"></button></header>
-<section class="stats">
- <div class="stat"><b id="sMonth">0</b><span id="tMonth"></span></div>
- <div class="stat"><b id="sStreak">0</b><span id="tStreak"></span></div>
-</section>
-<div class="nav"><button id="prev" aria-label="Previous">‹</button><h2 id="title"></h2><button id="next" aria-label="Next">›</button></div>
-<div class="grid" id="grid"></div>
-<p class="msg" id="msg"></p>
-</main>
-<dialog id="dlg"><h3 id="dTitle"></h3>
-<button class="d" id="bDry"></button><button class="w" id="bWet"></button>
-<button id="bClr"></button><button class="x" id="bCancel"></button></dialog>
+<div class="ss" id="ss">
+
+  <!-- ONBOARDING -->
+  <div id="vob" style="display:flex;flex-direction:column;flex:1">
+    <div id="ob1" class="ob" style="flex:1">
+      <div class="ob-ic">🌙</div>
+      <div class="ob-h">Welcome to StarSleep</div>
+      <div class="ob-p">Your personal night-time hero app. Track your progress, build good habits, and earn rewards along the way!</div>
+      <input type="text" id="inp-name" placeholder="What's your name?" maxlength="20"/>
+      <button class="btn-p" onclick="ob1next()">Let's go →</button>
+      <div class="ob-dots"><div class="od on"></div><div class="od"></div><div class="od"></div></div>
+    </div>
+    <div id="ob2" class="ob" style="display:none;flex:1">
+      <div class="ob-ic">🎯</div>
+      <div class="ob-h" id="ob2h">Set your weekly goal</div>
+      <div class="ob-p">How many dry nights per week do you want to aim for?</div>
+      <div class="ob-goals">
+        <button class="gb" onclick="setGoal(3)" id="gb3">3</button>
+        <button class="gb" onclick="setGoal(4)" id="gb4">4</button>
+        <button class="gb sel" onclick="setGoal(5)" id="gb5">5</button>
+        <button class="gb" onclick="setGoal(6)" id="gb6">6</button>
+        <button class="gb" onclick="setGoal(7)" id="gb7">7</button>
+      </div>
+      <button class="btn-p" onclick="ob2next()">Continue →</button>
+      <div class="ob-dots"><div class="od"></div><div class="od on"></div><div class="od"></div></div>
+    </div>
+    <div id="ob3" class="ob" style="display:none;flex:1">
+      <div class="ob-ic">🔔</div>
+      <div class="ob-h">Bedtime reminder</div>
+      <div class="ob-p">What time do you usually go to bed? This helps you remember your nightly routine.</div>
+      <input type="time" id="inp-time" value="21:00"/>
+      <button class="btn-p" onclick="startApp()">Start my journey ✨</button>
+      <div class="ob-dots"><div class="od"></div><div class="od"></div><div class="od on"></div></div>
+    </div>
+  </div>
+
+  <!-- CELEBRATION -->
+  <div id="vcel" style="display:none;flex-direction:column;flex:1">
+    <div class="cel">
+      <span class="cel-ic" id="cel-ic"></span>
+      <div class="cel-h" id="cel-h"></div>
+      <div class="cel-p" id="cel-p"></div>
+      <button class="btn-p" style="width:auto;padding:0.85rem 2.5rem;margin-top:2rem" onclick="closeCel()">Awesome! ✨</button>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="vapp" style="display:none;flex-direction:column;flex:1">
+    <div class="app-h">
+      <div>
+        <div class="app-title">StarSleep 🌙</div>
+        <div class="app-sub" id="ah-greet"></div>
+      </div>
+      <div class="stk-pill">🔥 <span id="stk-n">0</span> streak</div>
+    </div>
+
+    <!-- TONIGHT -->
+    <div id="t-tonight" class="tb">
+      <div style="font-size:13px;color:var(--txt2);margin-bottom:1rem" id="t-date"></div>
+      <div class="card">
+        <div style="font-size:16px;font-weight:700;color:var(--txt);margin-bottom:1rem">How was last night?</div>
+        <div class="nbtns">
+          <button class="nb dry" id="nd" onclick="pickN('dry')"><i class="ti ti-moon-stars"></i>Dry night! 🌟</button>
+          <button class="nb wet" id="nw" onclick="pickN('wet')"><i class="ti ti-droplet"></i>Wet night</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sec-l">Fluids after 5pm</div>
+        <div style="font-size:14px;color:var(--txt2)">How many glasses of water after dinner?</div>
+        <div class="stpr">
+          <button class="sbb" onclick="adj(-1)">−</button>
+          <span style="font-size:18px;font-weight:700;min-width:28px;text-align:center;color:var(--txt)" id="wv">0</span>
+          <button class="sbb" onclick="adj(1)">+</button>
+          <span style="font-size:13px;color:var(--txt2)">glasses</span>
+        </div>
+      </div>
+      <button class="btn-p" id="save-btn" onclick="saveTon()" disabled style="margin-bottom:0.75rem">Save tonight's log</button>
+      <div id="ton-msg"></div>
+    </div>
+
+    <!-- ROUTINE -->
+    <div id="t-routine" class="tb" style="display:none">
+      <div class="sec-l">Tonight's bedtime routine</div>
+      <div style="font-size:14px;color:var(--txt2);margin-bottom:0.75rem">Check each step before you go to sleep</div>
+      <div class="pbw"><div class="pb" id="rpb" style="width:0%"></div></div>
+      <div style="font-size:13px;color:var(--txt2);margin-bottom:1rem" id="rpbl">0 of 4 completed</div>
+      <div>
+        <div class="ri"><div class="rchk" id="rc0" onclick="togR(0)"><i class="ti ti-check"></i></div><div class="ri-ic"><i class="ti ti-droplet-off"></i></div><div><div class="ri-t">Stop drinking fluids</div><div class="ri-s">At least 1 hour before bed</div></div></div>
+        <div class="ri"><div class="rchk" id="rc1" onclick="togR(1)"><i class="ti ti-check"></i></div><div class="ri-ic"><i class="ti ti-door-exit"></i></div><div><div class="ri-t">Use the toilet</div><div class="ri-s">Right before getting into bed</div></div></div>
+        <div class="ri"><div class="rchk" id="rc2" onclick="togR(2)"><i class="ti ti-check"></i></div><div class="ri-ic"><i class="ti ti-wind"></i></div><div><div class="ri-t">Take 3 deep breaths</div><div class="ri-s">Breathe in slowly, breathe out slowly</div></div></div>
+        <div class="ri"><div class="rchk" id="rc3" onclick="togR(3)"><i class="ti ti-check"></i></div><div class="ri-ic"><i class="ti ti-mood-smile"></i></div><div><div class="ri-t">Say something kind to yourself</div><div class="ri-s">"I'm doing great. Tonight will be a good night!"</div></div></div>
+      </div>
+      <button class="btn-p" id="rsave" onclick="saveR()" style="margin-top:1rem" disabled>Mark routine complete ✓</button>
+      <div style="margin-top:1rem;background:#FAEEDA;border-radius:var(--r-lg);padding:1rem">
+        <div style="font-size:11px;font-weight:700;color:#854F0B;margin-bottom:4px">DID YOU KNOW?</div>
+        <div style="font-size:13px;color:#633806;line-height:1.5">A consistent bedtime routine teaches your brain when it's time to sleep — and helps your body stay dry through the night!</div>
+      </div>
+    </div>
+
+    <!-- REWARDS -->
+    <div id="t-rewards" class="tb" style="display:none">
+      <div class="sec-l">Your badges</div>
+      <div style="font-size:14px;color:var(--txt2);margin-bottom:1rem">Earn badges by reaching milestones. You've got this!</div>
+      <div class="bg-grid" id="bg-grid"></div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div id="t-progress" class="tb" style="display:none">
+      <div class="sec-l">This month</div>
+      <div class="s2">
+        <div class="sc"><div class="sn" id="pd">0</div><div class="sl">dry nights</div></div>
+        <div class="sc"><div class="sn" id="pw">0</div><div class="sl">wet nights</div></div>
+        <div class="sc"><div class="sn" id="ps">0</div><div class="sl">current streak</div></div>
+        <div class="sc"><div class="sn" id="pp">—</div><div class="sl">dry rate</div></div>
+      </div>
+      <div class="sec-l" id="cal-lbl" style="margin-bottom:0.5rem"></div>
+      <div class="cg" id="chdrs"></div>
+      <div class="cg" id="ccells" style="margin-top:4px"></div>
+      <div style="display:flex;gap:16px;margin-top:1rem;padding-bottom:0.5rem">
+        <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--txt2)"><div style="width:12px;height:12px;border-radius:3px;background:#1D9E75"></div>Dry night</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--txt2)"><div style="width:12px;height:12px;border-radius:3px;background:#378ADD"></div>Wet night</div>
+      </div>
+    </div>
+
+    <div class="bot-nav">
+      <button class="ni on" id="ni-tonight" onclick="goTab('tonight')"><i class="ti ti-home"></i>Tonight</button>
+      <button class="ni" id="ni-routine" onclick="goTab('routine')"><i class="ti ti-checklist"></i>Routine</button>
+      <button class="ni" id="ni-rewards" onclick="goTab('rewards')"><i class="ti ti-star"></i>Rewards</button>
+      <button class="ni" id="ni-progress" onclick="goTab('progress')"><i class="ti ti-chart-bar"></i>Progress</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
 <script>
-const T={
- en:{dry:"Dry night ⭐",wet:"Wet night ☁️",clr:"Clear this day",cancel:"Cancel",month:"stars this month",streak:"dry nights in a row",
-  m1:"Every star is a good night. Clouds are okay too — tomorrow is a new sky.",m2:"Tap a day to add a star or a cloud.",how:"How was the night of"},
- he:{dry:"לילה יבש ⭐",wet:"לילה רטוב ☁️",clr:"נקה את היום",cancel:"ביטול",month:"כוכבים החודש",streak:"לילות יבשים ברצף",
-  m1:"כל כוכב הוא לילה טוב. גם עננים זה בסדר — מחר שמיים חדשים.",m2:"לחצי על יום כדי להוסיף כוכב או ענן.",how:"איך היה הלילה של"}
-};
-let lang=localStorage.getItem("ss_lang")||((navigator.language||"en").startsWith("he")?"he":"en");
-let data={};try{data=JSON.parse(localStorage.getItem("ss_data")||"{}")}catch(e){}
-const now=new Date();let y=now.getFullYear(),m=now.getMonth(),sel=null;
-const $=id=>document.getElementById(id);
-const key=(Y,M,D)=>Y+"-"+String(M+1).padStart(2,"0")+"-"+String(D).padStart(2,"0");
-const save=()=>{try{localStorage.setItem("ss_data",JSON.stringify(data))}catch(e){}};
-function streak(){let d=new Date();if(!data[key(d.getFullYear(),d.getMonth(),d.getDate())])d.setDate(d.getDate()-1);
- let n=0;while(data[key(d.getFullYear(),d.getMonth(),d.getDate())]==="dry"){n++;d.setDate(d.getDate()-1)}return n}
-function render(){
- const t=T[lang],loc=lang==="he"?"he-IL":"en-US";
- document.documentElement.lang=lang;document.documentElement.dir=lang==="he"?"rtl":"ltr";
- $("lang").textContent=lang==="he"?"English":"עברית";
- $("title").textContent=new Date(y,m,1).toLocaleDateString(loc,{month:"long",year:"numeric"});
- $("tMonth").textContent=t.month;$("tStreak").textContent=t.streak;
- const g=$("grid");g.innerHTML="";
- for(let i=0;i<7;i++){const w=document.createElement("div");w.className="wd";
-  w.textContent=new Date(2023,0,1+i).toLocaleDateString(loc,{weekday:"short"});g.appendChild(w)}
- const first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate();
- for(let i=0;i<first;i++){const e=document.createElement("div");e.className="empty";g.appendChild(e)}
- let stars=0;const today=new Date();today.setHours(0,0,0,0);
- for(let d=1;d<=days;d++){
-  const k=key(y,m,d),v=data[k],b=document.createElement("button");
-  b.className="day"+(v?" "+v:"");
-  if(new Date(y,m,d).getTime()===today.getTime())b.classList.add("today");
-  b.innerHTML=(v==="dry"?"<i>⭐</i>":v==="wet"?"<i>☁️</i>":"")+"<span>"+d+"</span>";
-  if(v==="dry")stars++;
-  if(new Date(y,m,d)>today)b.disabled=true;
-  b.onclick=()=>{sel=k;$("dTitle").textContent=t.how+" "+new Date(y,m,d).toLocaleDateString(loc,{day:"numeric",month:"long"})+"?";
-   $("bDry").textContent=t.dry;$("bWet").textContent=t.wet;$("bClr").textContent=t.clr;$("bCancel").textContent=t.cancel;$("dlg").showModal()};
-  g.appendChild(b)}
- $("sMonth").textContent=stars;$("sStreak").textContent=streak();
- $("msg").textContent=Object.keys(data).length?t.m1:t.m2;
+const BDGS=[
+  {id:'first_dry',ic:'⭐',lbl:'First Star',desc:'Your very first dry night'},
+  {id:'streak_3',ic:'🔥',lbl:'On a Roll',desc:'3 dry nights in a row'},
+  {id:'streak_7',ic:'💫',lbl:'Star Power',desc:'7 dry nights in a row'},
+  {id:'streak_14',ic:'🌙',lbl:'Moon Master',desc:'14 dry nights in a row'},
+  {id:'total_5',ic:'🏅',lbl:'Rising Star',desc:'5 total dry nights'},
+  {id:'total_20',ic:'🏆',lbl:'Champion',desc:'20 total dry nights'},
+  {id:'routine_3',ic:'✅',lbl:'Routine Hero',desc:'Bedtime routine done 3 times'},
+  {id:'water_7',ic:'💧',lbl:'Water Wise',desc:'Tracked fluids 7 nights'},
+];
+let S={name:'',goal:5,bedtime:'21:00',logs:{},tonight:null,water:0,routine:[false,false,false,false]};
+const dk=()=>new Date().toISOString().slice(0,10);
+const dkd=d=>d.toISOString().slice(0,10);
+const getStreak=()=>{let s=0,t=new Date();for(let i=1;i<=90;i++){const d=new Date(t);d.setDate(d.getDate()-i);const l=S.logs[dkd(d)];if(l?.night==='dry')s++;else if(l?.night==='wet')break;else if(i===1)continue;else break;}return s;};
+const getTotDry=()=>Object.values(S.logs).filter(l=>l.night==='dry').length;
+const getRCount=()=>Object.values(S.logs).filter(l=>l.routineDone).length;
+const getWCount=()=>Object.values(S.logs).filter(l=>typeof l.water==='number').length;
+function getUnlocked(){
+  const s=getStreak(),td=getTotDry(),rc=getRCount(),wc=getWCount(),u=new Set();
+  if(td>=1)u.add('first_dry');if(s>=3)u.add('streak_3');if(s>=7)u.add('streak_7');if(s>=14)u.add('streak_14');
+  if(td>=5)u.add('total_5');if(td>=20)u.add('total_20');if(rc>=3)u.add('routine_3');if(wc>=7)u.add('water_7');
+  return u;
 }
-function set(v){if(v)data[sel]=v;else delete data[sel];save();$("dlg").close();render()}
-$("bDry").onclick=()=>set("dry");$("bWet").onclick=()=>set("wet");$("bClr").onclick=()=>set(null);$("bCancel").onclick=()=>$("dlg").close();
-$("prev").onclick=()=>{m--;if(m<0){m=11;y--}render()};
-$("next").onclick=()=>{m++;if(m>11){m=0;y++}render()};
-$("lang").onclick=()=>{lang=lang==="he"?"en":"he";try{localStorage.setItem("ss_lang",lang)}catch(e){}render()};
-render();
-if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+function load(){
+  try{const r=localStorage.getItem('ss-v5');if(r)Object.assign(S,JSON.parse(r));}catch(e){}
+  S.routine=S.routine||[false,false,false,false];
+  if(S.name)showApp();else{document.getElementById('vob').style.display='flex';}
+}
+function save(){try{localStorage.setItem('ss-v5',JSON.stringify(S));}catch(e){}}
+function ob1next(){
+  const n=document.getElementById('inp-name').value.trim();
+  if(!n){document.getElementById('inp-name').focus();return;}
+  S.name=n;document.getElementById('ob2h').textContent='Hi '+n+'! Set your goal';
+  document.getElementById('ob1').style.display='none';document.getElementById('ob2').style.display='flex';
+}
+function setGoal(n){S.goal=n;[3,4,5,6,7].forEach(v=>document.getElementById('gb'+v).classList.toggle('sel',v===n));}
+function ob2next(){document.getElementById('ob2').style.display='none';document.getElementById('ob3').style.display='flex';}
+function startApp(){S.bedtime=document.getElementById('inp-time').value||'21:00';save();showApp();}
+function showApp(){
+  document.getElementById('vob').style.display='none';
+  document.getElementById('vapp').style.display='flex';
+  document.getElementById('ah-greet').textContent='Hi, '+S.name+'!';
+  document.getElementById('t-date').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+  refreshHeader();
+  const k=dk(),log=S.logs[k];
+  if(log){if(log.night)pickN(log.night);if(typeof log.water==='number'){S.water=log.water;document.getElementById('wv').textContent=S.water;}document.getElementById('save-btn').textContent='Update log';}
+  refreshRoutine();
+}
+function refreshHeader(){document.getElementById('stk-n').textContent=getStreak();}
+function pickN(v){S.tonight=v;document.getElementById('nd').classList.toggle('sel',v==='dry');document.getElementById('nw').classList.toggle('sel',v==='wet');document.getElementById('save-btn').disabled=false;}
+function adj(d){S.water=Math.max(0,(S.water||0)+d);document.getElementById('wv').textContent=S.water;}
+function saveTon(){
+  if(!S.tonight)return;
+  const prev=getUnlocked();S.logs[dk()]={...S.logs[dk()],night:S.tonight,water:S.water};save();
+  const curr=getUnlocked(),nb=BDGS.find(b=>curr.has(b.id)&&!prev.has(b.id));
+  refreshHeader();
+  const d=S.tonight==='dry';
+  const md=['Amazing! Keep that streak going!','Another dry night — you\'re on fire!','Brilliant! One step closer to your goal.'];
+  const mw=['That\'s okay — every night is a fresh start.','No worries, keep going — you\'ve got this.','Try the bedtime routine tonight — it really helps!'];
+  const msg=(d?md:mw)[Math.floor(Math.random()*(d?3:3))];
+  document.getElementById('ton-msg').innerHTML='<div style="background:'+(d?'#E1F5EE':'#E6F1FB')+';border-radius:12px;padding:1rem"><div style="font-size:11px;font-weight:700;color:'+(d?'#0F6E56':'#185FA5')+';margin-bottom:4px">'+(d?'WELL DONE! 🌟':'KEEP GOING!')+'</div><div style="font-size:14px;color:'+(d?'#085041':'#0C447C')+';line-height:1.5">'+msg+'</div></div>';
+  toast(d?'🌟 Logged! Great job!':'✓ Logged. Keep going!');
+  document.getElementById('save-btn').textContent='Update log';
+  if(nb)setTimeout(()=>showCel(nb),900);
+}
+function togR(i){S.routine[i]=!S.routine[i];refreshRoutine();}
+function refreshRoutine(){
+  const r=S.routine||[false,false,false,false];let done=0;
+  r.forEach((v,i)=>{const el=document.getElementById('rc'+i);if(el){el.classList.toggle('done',v);if(v)done++;}});
+  const pct=Math.round(done/4*100);
+  document.getElementById('rpb').style.width=pct+'%';
+  document.getElementById('rpbl').textContent=done+' of 4 completed';
+  document.getElementById('rsave').disabled=done<4;
+}
+function saveR(){
+  const prev=getUnlocked();S.logs[dk()]={...S.logs[dk()],routineDone:true};save();
+  const curr=getUnlocked(),nb=BDGS.find(b=>curr.has(b.id)&&!prev.has(b.id));
+  toast('✓ Routine complete! Well done!');
+  if(nb)setTimeout(()=>showCel(nb),900);
+}
+function renderBadges(){
+  const u=getUnlocked();
+  document.getElementById('bg-grid').innerHTML=BDGS.map(b=>{const ok=u.has(b.id);return'<div class="bc '+(ok?'unlocked':'locked')+'"><div class="bi">'+b.ic+'</div><div class="bn">'+b.lbl+'</div><div class="bd">'+b.desc+'</div>'+(ok?'<div class="bt">Earned!</div>':'')+'</div>';}).join('');
+}
+function renderProgress(){
+  const now=new Date(),ym=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  const ml=Object.entries(S.logs).filter(([k])=>k.startsWith(ym));
+  const dry=ml.filter(([,l])=>l.night==='dry').length,wet=ml.filter(([,l])=>l.night==='wet').length,tot=dry+wet;
+  document.getElementById('pd').textContent=dry;document.getElementById('pw').textContent=wet;
+  document.getElementById('ps').textContent=getStreak();document.getElementById('pp').textContent=tot?Math.round(dry/tot*100)+'%':'—';
+  document.getElementById('cal-lbl').textContent=now.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+  document.getElementById('chdrs').innerHTML=['Su','Mo','Tu','We','Th','Fr','Sa'].map(d=>'<div class="ch">'+d+'</div>').join('');
+  const first=new Date(now.getFullYear(),now.getMonth(),1).getDay(),dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate(),td=now.getDate();
+  let cells='';
+  for(let i=0;i<first;i++)cells+='<div></div>';
+  for(let d=1;d<=dim;d++){const k=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');const l=S.logs[k];const cls=l?.night==='dry'?'dry':l?.night==='wet'?'wet':'';cells+='<div class="cc '+cls+(d===td?' tod':'')+'">'+d+'</div>';}
+  document.getElementById('ccells').innerHTML=cells;
+}
+function goTab(t){
+  ['tonight','routine','rewards','progress'].forEach(x=>{document.getElementById('t-'+x).style.display=x===t?'block':'none';document.getElementById('ni-'+x).classList.toggle('on',x===t);});
+  if(t==='rewards')renderBadges();if(t==='progress')renderProgress();
+}
+function showCel(b){
+  document.getElementById('vapp').style.display='none';document.getElementById('vcel').style.display='flex';
+  document.getElementById('cel-ic').textContent=b.ic;document.getElementById('cel-h').textContent='Badge unlocked: '+b.lbl+'!';
+  document.getElementById('cel-p').textContent=b.desc+'\n\nYou earned this — celebrate! 🎉';
+}
+function closeCel(){document.getElementById('vcel').style.display='none';document.getElementById('vapp').style.display='flex';}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+load();
+</script>
+<script>
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 </script>
 </body>
 </html>
